@@ -1,0 +1,119 @@
+@keyframes fadeInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); /* Menos desplazamiento vertical */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Menos desplazamiento vertical */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto';
+  background: linear-gradient(to top, #161616, #1b1b1b, #212121, #282828);
+  color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-container {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  width: 80%; /* Ancho del 80% */
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start; /* Alinear el contenido a la izquierda */
+  margin: 0 auto; /* Centrar el header horizontalmente */
+}
+
+.logo {
+  font-size: 3rem;
+  color: #4caf50;
+  margin-left: 200px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.instruction-title {
+  font-size: 4rem; /* Tamaño de la fuente del título */
+  color: #4caf50; /* Título en verde */
+  margin-top: 0; /* Eliminar margen superior */
+  position: relative;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra de texto sutil */
+  animation: fadeInFromTop 0.5s ease-out; /* Aplica la animación al título */
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 200px;
+  opacity: 0;
+  animation: fadeInFromBottom 0.5s ease-out forwards; /* Añadir forwards aquí */
+  animation-delay: 0.5s;
+}
+
+.url-input {
+  padding: 10px;
+  width: 300px;
+  border: 2px solid #4CAF50;
+  border-radius: 5px;
+  margin-right: 10px; /* Espacio entre el input y el botón */
+  font-size: 1rem;
+  background-color: #ffffff;
+}
+
+.shorten-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.shorten-button:hover {
+  background-color: #45a049;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
