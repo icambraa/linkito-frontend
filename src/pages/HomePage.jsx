@@ -76,7 +76,7 @@ export default function HomePage() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/shorten', {
+      const response = await fetch('https://linkito-backend-2.onrender.com/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function HomePage() {
 
       if (response.ok) {
         const data = await response.json();
-        const newShortenedUrl = `http://localhost:8080/${data.shortUrl}`;
+        const newShortenedUrl = `https://linkito-backend-2.onrender.com/${data.shortUrl}`;
         setShortenedUrl(newShortenedUrl);
 
         // Add the new link to userLinks and save to local storage

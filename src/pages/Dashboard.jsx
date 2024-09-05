@@ -36,21 +36,21 @@ export default function Dashboard() {
         const uid = user.uid;
         try {
           const [linksResponse, totalClicksResponse, mostPopularLinkResponse] = await Promise.all([
-            fetch(`http://localhost:8080/api/links?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/links?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
                 'Content-Type': 'application/json',
               },
             }),
-            fetch(`http://localhost:8080/api/stats/total-clicks?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/stats/total-clicks?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
                 'Content-Type': 'application/json',
               },
             }),
-            fetch(`http://localhost:8080/api/stats/most-popular?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/stats/most-popular?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
@@ -93,7 +93,7 @@ export default function Dashboard() {
       const user = auth.currentUser;
       if (!user) return;
   
-      const response = await fetch('http://localhost:8080/api/shorten', {
+      const response = await fetch('https://linkito-backend-2.onrender.com/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export default function Dashboard() {
   
       setDeletingLinkId(id);
 
-      const response = await fetch(`http://localhost:8080/api/links/${shortUrl}`, {
+      const response = await fetch(`https://linkito-backend-2.onrender.com/api/links/${shortUrl}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${await user.getIdToken()}`,
@@ -352,7 +352,7 @@ export default function Dashboard() {
                           <td className="py-2 px-4">
                             <div className="flex items-center space-x-2">
                               <button 
-                                onClick={() => handleCopyLink(link.id, `http://localhost:8080/${link.shortUrl}`)} 
+                                onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
                                 className="text-green-500 hover:text-green-400 focus:outline-none"
                                 aria-label="Copiar URL corta"
                               >
@@ -362,8 +362,8 @@ export default function Dashboard() {
                                   <Copy className="h-4 w-4" />
                                 )}
                               </button>
-                              <a href={`http://localhost:8080/${link.shortUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-green-400 max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                {`http://localhost:8080/${link.shortUrl}`}
+                              <a href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-green-400 max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
+                                {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
                               </a>
                             </div>
                           </td>
@@ -378,7 +378,7 @@ export default function Dashboard() {
                           <td className="py-2 px-4">{new Date(link.createdAt).toLocaleDateString()}</td>
                           <td className="py-2 px-4">
                             <div className="flex space-x-2">
-                              <button onClick={() => handleGenerateQR(`http://localhost:8080/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
+                              <button onClick={() => handleGenerateQR(`https://linkito-backend-2.onrender.com/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
                                 <QrCode className="h-5 w-5" />
                               </button>
                               <button onClick={() => handleEditLink(link.id)} className="text-blue-500 hover:text-blue-400 focus:outline-none" aria-label="Editar enlace">
