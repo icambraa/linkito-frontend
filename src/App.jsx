@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import PasswordProtectedLink from './pages/PasswordProtectedLink';
-import { AuthProvider } from './context/AuthContext'; // Importa tu AuthProvider
-import ProtectedRoute from './components/ProtectedRoute'; // Importa el ProtectedRoute
+import ContactPage from './pages/ContactPage'; // Import the new ContactPage
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             }
           />
           <Route path="/password-protected/:shortUrl" element={<PasswordProtectedLink />} />
+          <Route path="/contact" element={<ContactPage />} /> {/* Add this new route */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
