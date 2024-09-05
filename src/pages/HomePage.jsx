@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithGoogle } from '../../firebase'; // Asegúrate de que la ruta sea correcta
 
-// Nuevo componente Toast
+// Componente Toast
 const Toast = ({ message, isVisible, onClose }) => {
   useEffect(() => {
     if (isVisible) {
@@ -30,13 +30,13 @@ export default function HomePage() {
   const [originalUrl, setOriginalUrl] = useState('');
   const [password, setPassword] = useState('');
   const [shortenedUrl, setShortenedUrl] = useState('');
-  const [isCopied, setIsCopied] = useState(false);
   const [usePassword, setUsePassword] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userLinks, setUserLinks] = useState([]);
   const [showUserLinks, setShowUserLinks] = useState(false);
   const [newLinkIndex, setNewLinkIndex] = useState(-1);
-  const [showToast, setShowToast] = useState(false); // Nuevo estado para el toast
+  const [showToast, setShowToast] = useState(false);
+  const [copiedLinkId, setCopiedLinkId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -111,10 +111,10 @@ export default function HomePage() {
     }
   };
 
-  const handleCopyClick = useCallback((url) => {
+  const handleCopyClick = useCallback((url, index) => {
     navigator.clipboard.writeText(url).then(() => {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      setCopiedLinkId(index);
+      setTimeout(() => setCopiedLinkId(null), 2000);
     });
   }, []);
 
@@ -172,8 +172,8 @@ export default function HomePage() {
         `}</style>
         <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row justify-center items-start">
           <div className={`w-full ${showUserLinks ? 'lg:w-2/3' : 'lg:w-full'} flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${showUserLinks ? 'animate-slide-to-left' : ''}`}>
-            <h1 className="text-5xl font-bold text-green-500 mb-6 mt-6">Simple URL Tools</h1>
-            <p className="text-xl mb-6 text-center">Acorta y encripta tus enlaces de forma fácil y rápida</p>
+            <h1 className="text-5xl font-bold text-green-500 mb-6 mt-6">Acortador de URL's</h1>
+            <p className="text-xl mb-6 text-center">Acorta y encripta tus links de forma fácil y rápida</p>
             
             <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-5 w-full max-w-md">
               <div className="flex items-start">
@@ -279,12 +279,23 @@ export default function HomePage() {
                     <p className="text-sm text-gray-400 mb-2 truncate">{link.original}</p>
                     <div className="flex justify-between">
                       <button
-                        onClick={() => handleCopyClick(link.shortened)}
-                        className="text-green-500 hover:text-green-400 transition-colors duration-200 flex items-center"
+                        onClick={() => handleCopyClick(link.shortened, index)}
+                        className={`flex items-center transition-colors duration-200 ${
+                          copiedLinkId === index ? 'text-green-400' : 'text-green-500 hover:text-green-400'
+                        }`}
                         aria-label="Copiar al portapapeles"
                       >
-                        <Copy size={18} className="mr-1" />
-                        Copiar
+                        {copiedLinkId === index ? (
+                          <>
+                            <Check size={18} className="mr-1" />
+                            Copiado
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={18} className="mr-1" />
+                            Copiar
+                          </>
+                        )}
                       </button>
                       <button
                         onClick={() => handleDeleteLink(index)}
