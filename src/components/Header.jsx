@@ -1,31 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase'; // Asegúrate de tener configurado Firebase o el sistema de autenticación que uses
+import { auth, signInWithGoogle } from '../../firebase'; // Asegúrate de que la ruta sea correcta
+import { LogOut } from 'lucide-react';
 
 export default function Header() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para verificar si el usuario está autenticado
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Aquí se verifica si el usuario está autenticado, esto depende de tu sistema de autenticación
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        setIsAuthenticated(true); // Usuario autenticado
+        setIsAuthenticated(true);
       } else {
-        setIsAuthenticated(false); // Usuario no autenticado
+        setIsAuthenticated(false);
       }
     });
 
-    return () => unsubscribe(); // Limpia el listener cuando el componente se desmonta
+    return () => unsubscribe();
   }, []);
 
-  const handleLoginClick = () => {
-    navigate('/login');
+  const handleLoginClick = async () => {
+    try {
+      await signInWithGoogle();
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error al iniciar sesión con Google:', error);
+    }
   };
 
-  const handleLogoutClick = () => {
-    auth.signOut(); // Método para cerrar sesión
-    navigate('/');
+  const handleLogoutClick = async () => {
+    try {
+      await auth.signOut(); // Esperar a que Firebase cierre la sesión
+      navigate('/'); // Redirigir al homepage
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   };
 
   return (
@@ -35,21 +44,22 @@ export default function Header() {
         {isAuthenticated ? (
           <button
             onClick={handleLogoutClick}
-            className="bg-white text-green-500 font-semibold py-2 px-4 rounded hover:bg-green-100 transition duration-300 flex items-center"
+            className="bg-gray-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition duration-300 flex items-center space-x-2 shadow-sm border border-gray-600"
           >
-            Cerrar Sesión
+            <LogOut size={18} />
+            <span>Cerrar Sesión</span>
           </button>
         ) : (
           <button
             onClick={handleLoginClick}
-            className="bg-white text-green-500 font-semibold py-2 px-4 rounded hover:bg-green-100 transition duration-300 flex items-center"
+            className="bg-gray-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition duration-300 flex items-center space-x-2 shadow-sm border border-gray-600"
           >
             <img 
               src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
               alt="Google" 
-              className="w-5 h-5 mr-2"
+              className="w-5 h-5 bg-white rounded-full p-0.5"
             />
-            Iniciar Sesión con Google
+            <span>Entrar con Google</span>
           </button>
         )}
       </div>
