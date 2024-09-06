@@ -17,7 +17,7 @@ export default function PasswordProtectedLink() {
     setError('');
 
     try {
-        const response = await fetch(`https://linkito-backend-2.onrender.com/api/links/${shortUrl}/access`, {
+        const response = await fetch(`${backendUrl}/${shortUrl}/access`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
