@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithGoogle } from '../../firebase'; // Asegúrate de que la ruta sea correcta
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 // Componente Toast
 const Toast = ({ message, isVisible, onClose }) => {
@@ -77,7 +76,7 @@ export default function HomePage() {
     }
 
     try {
-      const response = await fetch(`${backendUrl}/api/shorten`, {
+      const response = await fetch('https://linkito-backend-2.onrender.com/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +89,7 @@ export default function HomePage() {
 
       if (response.ok) {
         const data = await response.json();
-        const newShortenedUrl = `${backendUrl}/${data.shortUrl}`;
+        const newShortenedUrl = `https://linkito-backend-2.onrender.com/${data.shortUrl}`;
         setShortenedUrl(newShortenedUrl);
 
         // Add the new link to userLinks and save to local storage
@@ -132,7 +131,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-t from-gray-900 to-gray-800 text-white flex flex-col">
       <Header />
       <main className="flex-grow flex px-4 py-8 overflow-hidden">
-        <style>{`
+        <style jsx>{`
           @keyframes slideInFromRight {
             0% {
               transform: translateX(100%);

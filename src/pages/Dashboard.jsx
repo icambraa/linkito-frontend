@@ -6,8 +6,6 @@ import Footer from '../components/Footer';
 import { PlusCircle, Trash2, QrCode, Copy, CheckCircle, Lock, Unlock, Edit, Hash, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { QRCodeSVG } from 'qrcode.react';
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
 
 export default function Dashboard() {
   const [newUrl, setNewUrl] = useState('');
@@ -38,21 +36,21 @@ export default function Dashboard() {
         const uid = user.uid;
         try {
           const [linksResponse, totalClicksResponse, mostPopularLinkResponse] = await Promise.all([
-            fetch(`${backendUrl}/api/links?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/links?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
                 'Content-Type': 'application/json',
               },
             }),
-            fetch(`${backendUrl}/api/stats/total-clicks?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/stats/total-clicks?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
                 'Content-Type': 'application/json',
               },
             }),
-            fetch(`${backendUrl}/api/stats/most-popular?userId=${uid}`, {
+            fetch(`https://linkito-backend-2.onrender.com/api/stats/most-popular?userId=${uid}`, {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${await user.getIdToken()}`,
@@ -95,7 +93,7 @@ export default function Dashboard() {
       const user = auth.currentUser;
       if (!user) return;
   
-      const response = await fetch(`${backendUrl}/api/shorten`, {
+      const response = await fetch('https://linkito-backend-2.onrender.com/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,7 +154,7 @@ export default function Dashboard() {
   
       setDeletingLinkId(id);
 
-      const response = await fetch(`${backendUrl}/api/links/${shortUrl}`, {
+      const response = await fetch(`https://linkito-backend-2.onrender.com/api/links/${shortUrl}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${await user.getIdToken()}`,
@@ -352,34 +350,34 @@ export default function Dashboard() {
                             )}
                           </td>
                           <td className="py-2 px-4">
-                          <div className="flex items-center space-x-2">
-                            <button 
-                              onClick={() => handleCopyLink(link.id, `${backendUrl}/${link.shortUrl}`)} 
-                              className="text-green-500 hover:text-green-400 focus:outline-none"
-                              aria-label="Copiar URL corta"
-                            >
-                              {copiedLinkId === link.id ? (
-                                <CheckCircle className="h-4 w-4" />
-                              ) : (
-                                <Copy className="h-4 w-4" />
-                              )}
-                            </button>
-                            <a 
-                              href={`${backendUrl}/${link.shortUrl}`} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="hover:text-green-400"
-                              style={{ 
-                                maxWidth: '150px',
-                                overflow: 'hidden', 
-                                textOverflow: 'ellipsis', 
-                                whiteSpace: 'nowrap' 
-                              }}
-                            >
-                              {`${backendUrl}/${link.shortUrl}`}
-                            </a>
-                          </div>
-                        </td>
+  <div className="flex items-center space-x-2">
+    <button 
+      onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
+      className="text-green-500 hover:text-green-400 focus:outline-none"
+      aria-label="Copiar URL corta"
+    >
+      {copiedLinkId === link.id ? (
+        <CheckCircle className="h-4 w-4" />
+      ) : (
+        <Copy className="h-4 w-4" />
+      )}
+    </button>
+    <a 
+      href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="hover:text-green-400"
+      style={{ 
+        maxWidth: '150px',
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis', 
+        whiteSpace: 'nowrap' 
+      }}
+    >
+      {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
+    </a>
+  </div>
+</td>
 
                           <td className="py-2 px-4">
                             <div className="max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -392,7 +390,7 @@ export default function Dashboard() {
                           <td className="py-2 px-4">{new Date(link.createdAt).toLocaleDateString()}</td>
                           <td className="py-2 px-4">
                             <div className="flex space-x-2">
-                              <button onClick={() => handleGenerateQR(`${backendUrl}/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
+                              <button onClick={() => handleGenerateQR(`https://linkito-backend-2.onrender.com/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
                                 <QrCode className="h-5 w-5" />
                               </button>
                               <button onClick={() => handleEditLink(link.id)} className="text-blue-500 hover:text-blue-400 focus:outline-none" aria-label="Editar enlace">
