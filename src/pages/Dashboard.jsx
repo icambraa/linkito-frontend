@@ -350,23 +350,35 @@ export default function Dashboard() {
                             )}
                           </td>
                           <td className="py-2 px-4">
-                            <div className="flex items-center space-x-2">
-                              <button 
-                                onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
-                                className="text-green-500 hover:text-green-400 focus:outline-none"
-                                aria-label="Copiar URL corta"
-                              >
-                                {copiedLinkId === link.id ? (
-                                  <CheckCircle className="h-4 w-4" />
-                                ) : (
-                                  <Copy className="h-4 w-4" />
-                                )}
-                              </button>
-                              <a href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} target="_blank" rel="noopener noreferrer" className="hover:text-green-400 max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
-                                {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
-                              </a>
-                            </div>
-                          </td>
+  <div className="flex items-center space-x-2">
+    <button 
+      onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
+      className="text-green-500 hover:text-green-400 focus:outline-none"
+      aria-label="Copiar URL corta"
+    >
+      {copiedLinkId === link.id ? (
+        <CheckCircle className="h-4 w-4" />
+      ) : (
+        <Copy className="h-4 w-4" />
+      )}
+    </button>
+    <a 
+      href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="hover:text-green-400"
+      style={{ 
+        maxWidth: '150px', /* Ajusta el ancho máximo según lo que necesites */
+        overflow: 'hidden', 
+        textOverflow: 'ellipsis', 
+        whiteSpace: 'nowrap' 
+      }}
+    >
+      {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
+    </a>
+  </div>
+</td>
+
                           <td className="py-2 px-4">
                             <div className="max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
                               <a href={link.originalUrl} target="_blank" rel="noopener noreferrer" className="hover:text-green-400">
@@ -378,7 +390,7 @@ export default function Dashboard() {
                           <td className="py-2 px-4">{new Date(link.createdAt).toLocaleDateString()}</td>
                           <td className="py-2 px-4">
                             <div className="flex space-x-2">
-                              <button onClick={() => handleGenerateQR(`https://linkito-backend-2.onrender.com/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
+                              <button onClick={() => handleGenerateQR(`http://localhost:8080/${link.shortUrl}`)} className="text-green-500 hover:text-green-400 focus:outline-none" aria-label="Generar código QR">
                                 <QrCode className="h-5 w-5" />
                               </button>
                               <button onClick={() => handleEditLink(link.id)} className="text-blue-500 hover:text-blue-400 focus:outline-none" aria-label="Editar enlace">
