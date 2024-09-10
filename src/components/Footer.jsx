@@ -11,11 +11,6 @@ export default function Footer() {
           <span>Desarrollado por Ignacio Cambra con</span>
           <Heart className="w-4 h-4 text-red-500 mx-1" />
         </div>
-        <Link to="/contact" className="flex items-center text-gray-300 hover:text-white transition duration-300 ease-in-out text-sm mr-10">
-          <Mail className="w-4 h-4 mr-1" />
-          <span>Contacto</span>
-        </Link>
-
         <div className="flex items-center text-gray-300 text-sm">
           <LinkIcon className="w-4 h-4 mr-1" />
           <span>Acortando enlaces desde 2024</span>
