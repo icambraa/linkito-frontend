@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ArrowRight, CheckCircle, HelpCircle, Check, Copy, Lock, Clock, ExternalLink, Trash2 } from 'lucide-react';
+import { ArrowRight, CheckCircle, HelpCircle, Check, Copy, Lock, Clock, ExternalLink, Trash2, AlertTriangle } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +37,8 @@ export default function HomePage() {
   const [newLinkIndex, setNewLinkIndex] = useState(-1);
   const [showToast, setShowToast] = useState(false);
   const [copiedLinkId, setCopiedLinkId] = useState(null);
+  const [showWakeUpMessage, setShowWakeUpMessage] = useState(false);
+  const [isWakingUp, setIsWakingUp] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,6 +77,7 @@ export default function HomePage() {
       return;
     }
 
+    setIsWakingUp(true);
     try {
       const response = await fetch('https://linkito-backend-2.onrender.com/api/shorten', {
         method: 'POST',
@@ -100,14 +103,20 @@ export default function HomePage() {
         if (!showUserLinks) {
           setTimeout(() => setShowUserLinks(true), 100);
         }
-        setShowToast(true); // Mostrar el toast
+        setShowToast(true);
+      } else if (response.status === 503) {
+        setShowWakeUpMessage(true);
+        setTimeout(() => setShowWakeUpMessage(false), 120000); // 2 minutos
       } else {
         console.error('Error al acortar la URL:', response.statusText);
         alert("Hubo un problema al acortar la URL. Inténtalo de nuevo.");
       }
     } catch (error) {
       console.error('Error al acortar la URL:', error);
-      alert("Hubo un problema al conectar con el servidor.");
+      setShowWakeUpMessage(true);
+      setTimeout(() => setShowWakeUpMessage(false), 120000); // 2 minutos
+    } finally {
+      setIsWakingUp(false);
     }
   };
 
@@ -194,6 +203,20 @@ export default function HomePage() {
               </div>
             </div>
 
+            {showWakeUpMessage && (
+              <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-5 w-full max-w-md">
+                <div className="flex items-start">
+                  <AlertTriangle className="w-6 h-6 mr-2 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold">El servidor está despertando</p>
+                    <p className="text-sm mt-1">
+                      Por favor, espera unos 2 minutos para que el servidor se active completamente. Después de eso, tu enlace funcionará correctamente.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-col mb-8 w-full max-w-md">
               <div className="flex mb-4">
                 <input
@@ -205,9 +228,10 @@ export default function HomePage() {
                 />
                 <button
                   onClick={handleShortenClick}
-                  className="bg-green-500 text-white p-3 rounded-r-md hover:bg-green-600 transition duration-300"
+                  className={`bg-green-500 text-white p-3 rounded-r-md hover:bg-green-600 transition duration-300 ${isWakingUp ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isWakingUp}
                 >
-                  Acortar
+                  {isWakingUp ? 'Despertando...' : 'Acortar'}
                 </button>
               </div>
               <div className="flex items-center mb-4">
