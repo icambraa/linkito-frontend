@@ -18,18 +18,14 @@ https://github.com/icambraa/linkito-backend
 
 ## Tecnologías Utilizadas
 
-### Frontend:
+### Front-end:
 - **React** con **Vite** como herramienta de desarrollo.
 - **Tailwind CSS** para estilos.
-- **React Router** para el manejo de rutas.
 - **Firebase Authentication** para la autenticación de usuarios.
-- **Lucide Icons** para iconografía.
 
-
-### Despliegue:
-- **Frontend**: Desplegado en **Netlify**.
-- **Backend**: Desplegado en **Render**.
-
+### Back-end:
+- **Spring Boot** con **Maven** como herramienta de desarrollo.
+- **PostgreSQL** como base de datos.
 
 ## Despliegue
 
