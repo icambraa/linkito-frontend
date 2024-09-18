@@ -255,6 +255,11 @@ export default function HomePage() {
                   />
                 </div>
               )}
+              {/* Nuevo mensaje debajo de la opción "Proteger con contraseña" */}
+              <p className="text-sm text-yellow-400 mt-2 text-center">
+                <AlertTriangle className="inline-block mr-1 mb-1" size={16} />
+                La primera petición puede tardar unos minutos debido a la versión gratuita de Render
+              </p>
             </div>
 
             <div className="mb-8 w-full">
