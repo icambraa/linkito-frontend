@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { PlusCircle, Trash2, QrCode, Copy, CheckCircle, Lock, Unlock, Edit, Hash, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { PlusCircle, Trash2, QrCode, Copy, CheckCircle, Lock, Unlock, Edit, Hash, Search, X, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -220,7 +220,17 @@ export default function Dashboard() {
       <div className="min-h-screen bg-gradient-to-t from-gray-900 to-gray-800 text-white flex flex-col">
         <Header />
         <main className="flex-grow flex flex-col items-center justify-center px-4 py-8">
-          <p>Cargando...</p>
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md mb-5 w-full max-w-md animate-pulse">
+            <div className="flex items-start">
+              <AlertTriangle className="w-6 h-6 mr-2 mt-1 flex-shrink-0" />
+              <div>
+                <p className="font-semibold">El servidor está despertando</p>
+                <p className="text-sm mt-1">
+                  Por favor, espera unos 2 minutos para que el servidor se active completamente. Después de eso, tu información se cargará correctamente.
+                </p>
+              </div>
+            </div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -350,35 +360,34 @@ export default function Dashboard() {
                             )}
                           </td>
                           <td className="py-2 px-4">
-  <div className="flex items-center space-x-2">
-    <button 
-      onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
-      className="text-green-500 hover:text-green-400 focus:outline-none"
-      aria-label="Copiar URL corta"
-    >
-      {copiedLinkId === link.id ? (
-        <CheckCircle className="h-4 w-4" />
-      ) : (
-        <Copy className="h-4 w-4" />
-      )}
-    </button>
-    <a 
-      href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} 
-      target="_blank" 
-      rel="noopener noreferrer" 
-      className="hover:text-green-400"
-      style={{ 
-        maxWidth: '150px',
-        overflow: 'hidden', 
-        textOverflow: 'ellipsis', 
-        whiteSpace: 'nowrap' 
-      }}
-    >
-      {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
-    </a>
-  </div>
-</td>
-
+                            <div className="flex items-center space-x-2">
+                              <button 
+                                onClick={() => handleCopyLink(link.id, `https://linkito-backend-2.onrender.com/${link.shortUrl}`)} 
+                                className="text-green-500 hover:text-green-400 focus:outline-none"
+                                aria-label="Copiar URL corta"
+                              >
+                                {copiedLinkId === link.id ? (
+                                  <CheckCircle className="h-4 w-4" />
+                                ) : (
+                                  <Copy className="h-4 w-4" />
+                                )}
+                              </button>
+                              <a 
+                                href={`https://linkito-backend-2.onrender.com/${link.shortUrl}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="hover:text-green-400"
+                                style={{ 
+                                  maxWidth: '150px',
+                                  overflow: 'hidden', 
+                                  textOverflow: 'ellipsis', 
+                                  whiteSpace: 'nowrap' 
+                                }}
+                              >
+                                {`https://linkito-backend-2.onrender.com/${link.shortUrl}`}
+                              </a>
+                            </div>
+                          </td>
                           <td className="py-2 px-4">
                             <div className="max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
                               <a href={link.originalUrl} target="_blank" rel="noopener noreferrer" className="hover:text-green-400">

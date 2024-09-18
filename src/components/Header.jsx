@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { auth, signInWithGoogle } from '../../firebase'; // Asegúrate de que la ruta sea correcta
+import { auth, signInWithGoogle } from '../../firebase';
 import { LogOut, LayoutDashboard } from 'lucide-react';
 
 export default function Header() {
@@ -10,13 +10,8 @@ export default function Header() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
+      setIsAuthenticated(!!user);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -59,23 +54,28 @@ export default function Header() {
           {isAuthenticated ? (
             <button
               onClick={handleLogoutClick}
-              className="bg-gray-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition duration-300 flex items-center space-x-2 shadow-sm border border-gray-600"
+              className="text-gray-300 hover:text-white transition duration-300"
+              aria-label="Cerrar Sesión"
             >
-              <LogOut size={18} />
-              <span>Cerrar Sesión</span>
+              <LogOut size={24} />
             </button>
           ) : (
-            <button
-              onClick={handleLoginClick}
-              className="bg-gray-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition duration-300 flex items-center space-x-2 shadow-sm border border-gray-600"
-            >
-              <img 
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
-                alt="Google" 
-                className="w-5 h-5 bg-white rounded-full p-0.5"
-              />
-              <span>Entrar con Google</span>
-            </button>
+            <div className="relative">
+              <button
+                onClick={handleLoginClick}
+                className="flex items-center justify-start bg-white text-gray-700 rounded-full h-10 pl-2 pr-2 hover:pr-6 w-10 hover:w-40 transition-all duration-300 ease-in-out overflow-hidden group"
+                aria-label="Iniciar Sesión con Google"
+              >
+                <img 
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+                  alt="Google" 
+                  className="w-6 h-6 flex-shrink-0"
+                />
+                <span className="ml-2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-bold">
+                  Iniciar sesión
+                </span>
+              </button>
+            </div>
           )}
         </div>
       </div>
